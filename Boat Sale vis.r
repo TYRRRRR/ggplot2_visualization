@@ -98,3 +98,23 @@ df %>% group_by(Size_Type)%>%
   coord_flip()+ 
   theme_classic()+
   theme(legend.position="none",plot.title = element_text(hjust = 0.5))
+
+med <- median(df$`Number of views last 7 days`)
+med
+
+out <- quantile(df$`Number of views last 7 days`,0.75) + 1.5*IQR(df$`Number of views last 7 days`)
+out
+
+ggplot(df,aes(x=`Number of views last 7 days`))+
+  geom_histogram(bins=70)+
+  geom_vline(xintercept = out,linetype=3,size=1,color="red")+
+  annotate("rect", xmin = out, xmax = Inf, ymin = 0,ymax=Inf, fill = "#EAA9A9",alpha=0.3)+
+  annotate("text", x = out + 300, y = 400, label = "Outlier Area\n weekly view > 322", color = "red",size = 5)+
+  scale_x_log10()+
+  labs(title ="Histogram of Weekly Views")+
+  xlab("Weekly Views (Log Scale)")+
+  ylab("Frequency")+
+  theme_bw()+
+  theme(plot.title = element_text(hjust = 0.5))
+
+
